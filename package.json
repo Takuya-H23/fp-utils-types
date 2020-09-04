@@ -2,13 +2,14 @@
   "name": "fp-utils-types",
   "version": "1.0.0",
   "description": "FP utilities and types",
-  "main": "./dist/index.js",
+  "main": "./dist/bundle.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "webpack --mode production",
-    "test": "jest --collect-coverage"
+    "test:coverage": "jest --collect-coverage",
+    "test": "jest"
   },
   "keywords": [
     "FP",
