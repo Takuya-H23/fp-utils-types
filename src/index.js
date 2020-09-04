@@ -1,1 +1,3 @@
-export default () => console.log('hi')
+import compose from "./compose"
+
+export { compose }
