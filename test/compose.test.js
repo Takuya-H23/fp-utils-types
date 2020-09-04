@@ -1,8 +1,5 @@
 import { compose } from "../src"
-
-const toUpper = s => s.toUpperCase()
-const exclaim = s => s + "!"
-const smile = s => s + " :)"
+import { toUpper, exclaim, smile } from "./testUtils"
 
 const composed = compose(smile, exclaim, toUpper)
 
