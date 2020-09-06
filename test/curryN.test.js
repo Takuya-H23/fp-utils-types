@@ -37,4 +37,25 @@ describe("curryN", () => {
     expect(getValueFormObject).toBe("foo")
     expect(getValueFormObject2).toBe("foo")
   })
+
+  const person = { firstName: "Kelsey", lastName: "Hall" }
+
+  const getProp = curryN(3, prop)
+  const getFirstName = getProp("firstName")
+  const getLastName = getProp("lastName")
+
+  const formatFullName = (firstDef, lastDef, personObj) =>
+    getFirstName(personObj, firstDef) + " " + getLastName(personObj, lastDef)
+
+  const kelsey = formatFullName("Takuya", "Hirata", person)
+
+  const takuya = formatFullName("Takuya", "Hirata", {
+    blue: "blue",
+    color: "yellow",
+  })
+
+  test("should maintain own scope", () => {
+    expect(kelsey).toBe("Kelsey Hall")
+    expect(takuya).toBe("Takuya Hirata")
+  })
 })
