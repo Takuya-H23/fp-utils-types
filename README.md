@@ -20,6 +20,22 @@ const composed = compose(smile, exclaim, toUpper)
 composed('hello') // 'HELLO! :)'
 ```
 
+### CurryN
+
+**(number, function) => curried function**
+
+```
+import { curryN } from 'fp-utils-types'
+
+const obj = { name: 'foo' }
+const prop = (key, obj, defaultValue) => (obj[key] ? obj[key] : defaultValue)
+
+const curried1 = curryN(3, prop)('name', example)('hey')
+const curried2 = curryN(3, prop)('name')(example)('hey')
+curried1({ name: 'foo' }) // 'foo'
+curried2({ name: 'foo' }) // 'foo'
+```
+
 ### Pipe
 
 **(functions) => composed function**
@@ -29,20 +45,4 @@ import { pipe } from 'fp-utils-types'
 
 const piped = pipe(toUpper, exclaim, smile)
 composed('hello') // 'HELLO! :)'
-```
-
-### CurryN
-
-**(number, function) => curried function**
-
-```
-import { curriedN } from 'fp-utils-types'
-
-const obj = { name: 'foo' }
-const prop = (key, obj, defaultValue) => (obj[key] ? obj[key] : defaultValue)
-
-const curried1 = curryN(3, prop)('name', example)('hey')
-const curried2 = curryN(3, props)('name')(example)('hey)
-curried1({ name: 'foo' }) // 'foo'
-curried2({ name: 'foo' }) // 'foo'
 ```
