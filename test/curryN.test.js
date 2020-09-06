@@ -32,9 +32,32 @@ describe("curryN", () => {
 
   test("should return correct value when  curried", () => {
     const getValueFormObject = curryN(3, prop)("name", example)("hey")
-    const getValueFormObject2 = curryN(2, prop)("name")(example, "hey")
+    const getValueFormObject2 = curryN(3, prop)("name")(example, "hey")
+    const getValueFormObject3 = curryN(3, prop)("name")(example)("hey")
 
     expect(getValueFormObject).toBe("foo")
     expect(getValueFormObject2).toBe("foo")
+    expect(getValueFormObject3).toBe("foo")
+  })
+
+  const person = { firstName: "Kelsey", lastName: "Hall" }
+
+  const getProp = curryN(3, prop)
+  const getFirstName = getProp("firstName")
+  const getLastName = getProp("lastName")
+
+  const formatFullName = (firstDef, lastDef, personObj) =>
+    getFirstName(personObj, firstDef) + " " + getLastName(personObj, lastDef)
+
+  const kelsey = formatFullName("Takuya", "Hirata", person)
+
+  const takuya = formatFullName("Takuya", "Hirata", {
+    blue: "blue",
+    color: "yellow",
+  })
+
+  test("should maintain own scope", () => {
+    expect(kelsey).toBe("Kelsey Hall")
+    expect(takuya).toBe("Takuya Hirata")
   })
 })
