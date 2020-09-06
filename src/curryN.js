@@ -6,16 +6,15 @@ const curryN = (n, f) => {
   if (typeof f !== "function") throw new Error(ERROR_NOT_FUNCTION)
 
   return (...args) => {
-    if (args.length >= n) {
-      return f(...args)
+    if (args.length === n) return f(...args)
+
+    const preCurried = cur => (...rest) => {
+      const acc = [...cur, ...rest]
+
+      return acc.length === n ? f(...acc) : preCurried(acc)
     }
 
-    const preCurried = (...rest) => {
-      let acc = args.concat(rest)
-      return acc.length >= n ? f(...acc) : preCurried
-    }
-
-    return preCurried
+    return preCurried(args)
   }
 }
 
