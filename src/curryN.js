@@ -6,9 +6,7 @@ const curryN = (n, f) => {
   if (typeof f !== "function") throw new Error(ERROR_NOT_FUNCTION)
 
   return (...args) => {
-    if (args.length === n) {
-      return f(...args)
-    }
+    if (args.length === n) return f(...args)
 
     const preCurried = cur => (...rest) => {
       const acc = [...cur, ...rest]
