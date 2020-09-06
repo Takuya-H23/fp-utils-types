@@ -2,13 +2,14 @@
   "name": "fp-utils-types",
   "version": "1.0.0",
   "description": "FP utilities and types",
-  "main": "./dist/index.js",
+  "main": "./dist/bundle.js",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "webpack --mode production",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:coverage": "jest --collect-coverage",
+    "test": "jest"
   },
   "keywords": [
     "FP",
@@ -16,6 +17,10 @@
   ],
   "author": "Takuya Hirata",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Takuya-H23/fp-utils-types"
+  },
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
