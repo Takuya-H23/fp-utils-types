@@ -38,7 +38,7 @@ curried2({ name: 'foo' }) // 'foo'
 
 ### Pipe
 
-**(functions) => composed function**
+**(functions) => piped function**
 
 ```
 import { pipe } from 'fp-utils-types'
