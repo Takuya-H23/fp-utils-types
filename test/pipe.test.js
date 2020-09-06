@@ -6,11 +6,13 @@ const piped = pipe(toUpper, exclaim, smile)
 
 describe("pipe", () => {
   test("should throw an error when no functions are passed", () => {
-    expect(pipe()).toThrow(ERROR_NEED_A_FUNCTION)
+    expect(() => {
+      pipe()
+    }).toThrow(ERROR_NEED_A_FUNCTION)
   })
 
   test("should return composed function", () => {
-    expect(typeof pipe()).toBe("function")
+    expect(typeof piped).toBe("function")
   })
 
   test("should return correct value", () => {
