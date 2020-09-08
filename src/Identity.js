@@ -6,4 +6,6 @@ const Identity = x => ({
   fold: f => f(x),
 })
 
+Identity.of = x => Identity(x)
+
 export default Identity

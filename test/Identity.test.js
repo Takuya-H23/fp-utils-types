@@ -33,4 +33,8 @@ describe("Identity", () => {
 
     expect(result).toBe("HELLO world! :)")
   })
+
+  test("should return correct value when of is used", () => {
+    expect(Identity.of(2).fold(id)).toBe(2)
+  })
 })
