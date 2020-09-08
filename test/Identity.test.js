@@ -19,8 +19,9 @@ describe("Identity", () => {
         Identity(" world")
           .map(exclaim)
           .map(smile)
-          .fold(latter => upper + latter)
+          .map(smiled => upper + smiled)
       )
+      .fold(id)
 
     expect(result).toBe("HELLO world! :)")
   })
@@ -32,6 +33,21 @@ describe("Identity", () => {
       .fold(id)
 
     expect(result).toBe("HELLO world! :)")
+  })
+
+  test("should concat array or str", () => {
+    const arrAndArr = Identity(["hello", "world"])
+      .map(x => x.map(toUpper))
+      .concat(Identity(["!"]).map(xs => xs.map(smile)))
+      .fold(id)
+
+    const arrAndStr = Identity(["hello", "world"])
+      .map(x => x.map(toUpper))
+      .concat(Identity("!").map(smile))
+      .fold(id)
+
+    expect(arrAndArr).toEqual(["HELLO", "WORLD", "! :)"])
+    expect(arrAndStr).toEqual(["HELLO", "WORLD", "! :)"])
   })
 
   test("should return correct value when of is used", () => {
