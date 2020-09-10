@@ -2,11 +2,6 @@
 
 Hi! I am Takuya. Functional Programming utils and types provides you utilities and types that are well documented and easy to use.
 
-## Install Functional Programming utils and types
-
-**npm install fp-utils-types**
-**yarn add fp-utils-types**
-
 ## Documentations
 
 ### Compose
@@ -45,4 +40,35 @@ import { pipe } from 'fp-utils-types'
 
 const piped = pipe(toUpper, exclaim, smile)
 composed('hello') // 'HELLO! :)'
+```
+
+### Identity
+
+**(any) => Identity(Any)**
+
+| Methods | Argument | Return                                                                                      |
+| ------- | -------- | ------------------------------------------------------------------------------------------- |
+| map     | unary    | Identity                                                                                    |
+| chain   | unary    | Identity (chain itself returns the value of Identity so your unary needs to return Identity |
+| concat  | Identity | Identity                                                                                    |
+| fold    | unary    | value                                                                                       |
+
+```
+import { Identity } from "fp-utils-types"
+
+Identity("hello")
+      .map(toUpper)
+      .map(exclaim)
+      .map(smile)
+      .fold(id) // "HELLO! :)"
+
+Identity("hello")
+      .map(toUpper)
+      .concat(Identity(" world").map(exclaim).map(smile))
+      .fold(id) // "HELLO world! :)"
+
+Identity(["hello", "world"])
+      .map(x => x.map(toUpper))
+      .concat(Identity(["!"]).map(xs => xs.map(smile)))
+      .fold(id) // ["HELLO", "WORLD", "! :)"]
 ```
