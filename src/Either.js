@@ -1,13 +1,6 @@
-const Either = x => ({
-  x,
-  isLeft: false,
-  map: f => Right(f(x)),
-  chain: f => f(x),
-  concat: other => (other.isLeft ? Right(x) : x.concat(other.x)),
-  fork: (f, g) => g(x),
-})
+import fromNullable from "./fromNullable"
 
-Either.Left = x => ({
+const Left = x => ({
   x,
   isLeft: true,
   map: f => Left(x),
@@ -16,17 +9,22 @@ Either.Left = x => ({
   fork: (f, g) => f(x),
 })
 
-Either.Right = x => ({
+const Right = x => ({
   x,
   isLeft: false,
   map: f => Right(f(x)),
   chain: f => f(x),
-  concat: other => (other.isLeft ? Right(x) : x.concat(other.x)),
+  concat: other => (other.isLeft ? other : Right(x.concat(other.x))),
   fork: (f, g) => g(x),
 })
 
+const Either = x => Right(x)
+
 Either.of = x => Either.Right(x)
 
-Either.fromNullable = x => (x != null ? Either.Right(x) : Either.Left(x))
+Either.Left = Left
+Either.Right = Right
+
+Either.fromNullable = x => (fromNullable(x) ? Either.Right(x) : Either.Left(x))
 
 export default Either
