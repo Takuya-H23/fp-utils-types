@@ -1,6 +1,9 @@
 import compose from "./compose"
 import curryN from "./curryN"
-import Identity from "./Identity"
+import fromNullable from "./fromNullable"
 import pipe from "./pipe"
 
-export { compose, curryN, Identity, pipe }
+import Either from "./Either"
+import Identity from "./Identity"
+
+export { compose, curryN, fromNullable, pipe, Either, Identity }
