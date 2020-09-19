@@ -27,16 +27,20 @@ const getFullNameFromArr = (fn, ls) =>
 const errorMsg = () => "Nope"
 
 describe("Either", () => {
-  test("should return right", () => {
-    expect(Either.of("Hi")).toHaveProperty("isLeft", false)
-    expect(Either.Right("Hi")).toHaveProperty("isLeft", false)
-    expect(Either.fromNullable("Hi")).toHaveProperty("isLeft", false)
+  test.each([
+    [Either.of("Hi")],
+    [Either.Right("Hi")],
+    [Either.fromNullable("Hi")],
+  ])("should return right", either => {
+    expect(either).toHaveProperty("isLeft", false)
   })
 
-  test("should return left", () => {
-    expect(Either.Left("Hi")).toHaveProperty("isLeft", true)
-    expect(Either.fromNullable(null)).toHaveProperty("isLeft", true)
-  })
+  test.each([[Either.Left("Hi"), Either.fromNullable(null)]])(
+    "should return left",
+    left => {
+      expect(left).toHaveProperty("isLeft", true)
+    }
+  )
 
   test("should be mappable when Right", () => {
     expect(sayItNicely("hello").fork(errorMsg, id)).toBe("HELLO! :)")

@@ -1,17 +1,11 @@
 import { fromNullable } from "../src"
 
 describe("fromNullable", () => {
-  test("should return false", () => {
-    expect(fromNullable(null)).toBe(false)
-    expect(fromNullable(undefined)).toBe(false)
-    expect(fromNullable()).toBe(false)
+  test.each([[null], [undefined]])("should return false", arg => {
+    expect(fromNullable(arg)).toBe(false)
   })
 
-  test("should return true", () => {
-    expect(fromNullable("")).toBe(true)
-    expect(fromNullable([])).toBe(true)
-    expect(fromNullable({})).toBe(true)
-    expect(fromNullable(false)).toBe(true)
-    expect(fromNullable(true)).toBe(true)
+  test.each([[""], [[]], [{}], [false], [true]])("should return true", arg => {
+    expect(fromNullable(arg)).toBe(true)
   })
 })
