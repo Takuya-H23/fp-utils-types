@@ -30,14 +30,12 @@ describe("curryN", () => {
     expect(result).toBe("foo")
   })
 
-  test("should return correct value when  curried", () => {
-    const getValueFormObject = curryN(3, prop)("name", example)("hey")
-    const getValueFormObject2 = curryN(3, prop)("name")(example, "hey")
-    const getValueFormObject3 = curryN(3, prop)("name")(example)("hey")
-
-    expect(getValueFormObject).toBe("foo")
-    expect(getValueFormObject2).toBe("foo")
-    expect(getValueFormObject3).toBe("foo")
+  const curryTable = test.each([
+    [curryN(3, prop)("name", example)("hey")],
+    [curryN(3, prop)("name")(example, "hey")],
+    [curryN(3, prop)("name")(example)("hey")],
+  ])("should return correct value when  curried", val => {
+    expect(val).toBe(example.name)
   })
 
   const person = { firstName: "Kelsey", lastName: "Hall" }

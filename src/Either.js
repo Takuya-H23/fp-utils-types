@@ -6,7 +6,7 @@ const Left = x => ({
   map: f => Left(x),
   chain: f => Left(x),
   concat: other => Left(x),
-  fork: (f, g) => f(x),
+  fold: (f, g) => f(x),
 })
 
 const Right = x => ({
@@ -15,7 +15,7 @@ const Right = x => ({
   map: f => Right(f(x)),
   chain: f => f(x),
   concat: other => (other.isLeft ? other : Right(x.concat(other.x))),
-  fork: (f, g) => g(x),
+  fold: (f, g) => g(x),
 })
 
 const Either = x => Right(x)
