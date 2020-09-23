@@ -1,9 +1,7 @@
-import compose from "./compose"
-import curryN from "./curryN"
-import fromNullable from "./fromNullable"
-import pipe from "./pipe"
+export { default as compose } from "./compose"
+export { default as curryN } from "./curryN"
+export { default as fromNullable } from "./fromNullable"
+export { default as pipe } from "./pipe"
 
-import Either from "./Either"
-import Identity from "./Identity"
-
-export { compose, curryN, fromNullable, pipe, Either, Identity }
+export { default as Either } from "./Either"
+export { default as Identity } from "./Identity"

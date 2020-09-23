@@ -12,7 +12,6 @@ const getFullNameWithCain = (fn, ln) =>
         .map(compose(smile, toUpper))
         .map(ln => first + " " + ln)
     )
-    .fork(() => "Nope", id)
 
 const getFullName = (fn, ls) =>
   Either.fromNullable(fn)
@@ -43,30 +42,34 @@ describe("Either", () => {
   )
 
   test("should be mappable when Right", () => {
-    expect(sayItNicely("hello").fork(errorMsg, id)).toBe("HELLO! :)")
+    expect(sayItNicely("hello").fold(errorMsg, id)).toBe("HELLO! :)")
   })
 
   test("should not map and run Left callback", () => {
-    expect(sayItNicely().fork(errorMsg, id)).toBe("Nope")
+    expect(sayItNicely().fold(errorMsg, id)).toBe("Nope")
   })
 
   test("should chain", () => {
-    expect(getFullNameWithCain("john", "doe")).toBe("JOHN DOE :)")
+    expect(getFullNameWithCain("john", "doe").fold(errorMsg, id)).toBe(
+      "JOHN DOE :)"
+    )
   })
 
   test("should concat Right", () => {
-    expect(getFullName("john", " doe").fork(id, id)).toBe("JOHN DOE :)")
-    expect(getFullNameFromArr(["john"], ["doe"]).fork(id, id)).toEqual([
+    expect(getFullName("john", " doe").fold(id, id)).toBe("JOHN DOE :)")
+    expect(getFullNameFromArr(["john"], ["doe"]).fold(id, id)).toEqual([
       "JOHN",
       "DOE :)",
     ])
   })
 
-  test("should run Left callback", () => {
-    expect(getFullName("john").fork(errorMsg, id)).toBe("Nope")
-    expect(getFullName(null, "doe").fork(errorMsg, id)).toBe("Nope")
-    expect(getFullNameFromArr().fork(errorMsg, id)).toBe("Nope")
-    expect(getFullNameFromArr(["john"]).fork(errorMsg, id)).toBe("Nope")
-    expect(getFullNameWithCain("john")).toBe("Nope")
+  test.each([
+    [getFullName("john")],
+    [getFullName(null, "doe")],
+    [getFullNameFromArr()],
+    [getFullNameFromArr(["john"])],
+    [getFullNameWithCain("john")],
+  ])("should run Left callback", Left => {
+    expect(Left.fold(errorMsg, id)).toBe(errorMsg())
   })
 })
