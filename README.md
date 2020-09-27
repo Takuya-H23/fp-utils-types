@@ -51,7 +51,7 @@ composed('hello') // 'HELLO! :)'
 | map     | unary         | Left or Right                                                                                              |
 | chain   | unary         | Left or Right (chain itself returns the value of Left or Right so your unary needs to return Left or Right |
 | concat  | Left or Right | Left or Right (concat if both of them are Right. Otherwise keep Left)                                      |
-| fork    | unary, unary  | First unary is for when the value is Left. Second unary runs when the value is Right                       |
+| fold    | unary, unary  | First unary is for when the value is Left. Second unary runs when the value is Right                       |
 
 ```
 import { Either, id } from "fp-utils-types"
@@ -62,8 +62,8 @@ const isString = s => typeof(s) === 'string' ? Right(s) : Left(s)
 const sayItNicely = s =>
   Either.fromNullable(s).map(toUpper).map(compose(smile, exclaim))
 
-sayItNicely('hello').fork(() => "Left", id) // "HELLO! :)"
-sayItNicely(null).fork(() => "Left", id) // "Left"
+sayItNicely('hello').fold(() => "Left", id) // "HELLO! :)"
+sayItNicely(null).fold(() => "Left", id) // "Left"
 ```
 
 ### Identity
