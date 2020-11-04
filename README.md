@@ -31,6 +31,39 @@ curried1({ name: 'foo' }) // 'foo'
 curried2({ name: 'foo' }) // 'foo'
 ```
 
+### FilterReducer
+
+**(a -> b) => ((a, b) -> c) => ((a, b) -> c)**
+
+```
+import { filterReducer } from 'fp-utils-types'
+
+const ns = [1, 2, 3]
+const is1 = x => x === 1
+
+ns.reduce(filterReducer(is1)(combinerByConcat), []) // [1]
+
+```
+
+### MapReducer
+
+**(a -> b) => ((a, b) -> c) => ((a, b) -> c)**
+
+```
+import { compose, curryN, mapReducer } from 'fp-utils-types'
+
+const ns = [1, 2, 3]
+const add = curryN(2, (x, y) => x + y)
+const add1 = add(1)
+const combinerByConcat = (acc, x) => acc.concat(x)
+
+const transducer = compose(mapReducer(add1))
+
+ns.reduce(transducer(combinerByConcat), []) // [2, 3, 4]
+ns.reduce(transducer(add), 0) // 9
+
+```
+
 ### Pipe
 
 **(functions) => piped function**
