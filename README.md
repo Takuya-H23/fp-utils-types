@@ -33,7 +33,7 @@ curried2({ name: 'foo' }) // 'foo'
 
 ### FilterReducer
 
-**(unary) => ((a, b) -> a) => reducer**
+**(a -> b) => ((a, b) -> c) => ((a, b) -> c)**
 
 ```
 import { filterReducer } from 'fp-utils-types'
@@ -47,7 +47,7 @@ ns.reduce(filterReducer(is1)(combinerByConcat), []) // [1]
 
 ### MapReducer
 
-**(unary) => ((a, b) -> a) => reducer**
+**(a -> b) => ((a, b) -> c) => ((a, b) -> c)**
 
 ```
 import { compose, curryN, mapReducer } from 'fp-utils-types'
