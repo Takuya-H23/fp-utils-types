@@ -6,10 +6,12 @@ const ns = [1, 2, 3]
 const add1 = add(1)
 
 test("should return a reducer", () => {
-  const transducer = compose(mapReducer(add1))(combinerByConcat)
-  const result = ns.reduce(transducer, [])
+  const transducer = compose(mapReducer(add1))
+  const result = ns.reduce(transducer(combinerByConcat), [])
+  const result2 = ns.reduce(transducer(add), 0)
 
   expect(result).toEqual([2, 3, 4])
+  expect(result2).toBe(9)
 })
 
 test("should composed mapReducer", () => {
