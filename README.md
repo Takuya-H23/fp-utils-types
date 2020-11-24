@@ -101,8 +101,6 @@ sayItNicely(null).fold(() => "Left", id) // "Left"
 
 ### Identity
 
-**(any) => Identity(Any)**
-
 | Methods | Argument | Return                                                                                      |
 | ------- | -------- | ------------------------------------------------------------------------------------------- |
 | map     | unary    | Identity                                                                                    |
@@ -113,18 +111,18 @@ sayItNicely(null).fold(() => "Left", id) // "Left"
 ```
 import { Identity } from "fp-utils-types"
 
-Identity("hello")
+Identity.of("hello")
       .map(toUpper)
       .map(exclaim)
       .map(smile)
       .fold(id) // "HELLO! :)"
 
-Identity("hello")
+Identity.of("hello")
       .map(toUpper)
       .concat(Identity(" world").map(exclaim).map(smile))
       .fold(id) // "HELLO world! :)"
 
-Identity(["hello", "world"])
+Identity.of(["hello", "world"])
       .map(x => x.map(toUpper))
       .concat(Identity(["!"]).map(xs => xs.map(smile)))
       .fold(id) // ["HELLO", "WORLD", "! :)"]
