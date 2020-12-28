@@ -3,7 +3,7 @@ import { exclaim, toUpper, smile, id } from "./testUtils"
 
 describe("Identity", () => {
   test("should be mappable", () => {
-    const result = Identity("hello")
+    const result = Identity.of("hello")
       .map(toUpper)
       .map(exclaim)
       .map(smile)
@@ -13,10 +13,10 @@ describe("Identity", () => {
   })
 
   test("should chain other types", () => {
-    const result = Identity("hello")
+    const result = Identity.of("hello")
       .map(toUpper)
       .chain(upper =>
-        Identity(" world")
+        Identity.of(" world")
           .map(exclaim)
           .map(smile)
           .map(smiled => upper + smiled)
@@ -27,23 +27,23 @@ describe("Identity", () => {
   })
 
   test("should concat value from other types", () => {
-    const result = Identity("hello")
+    const result = Identity.of("hello")
       .map(toUpper)
-      .concat(Identity(" world").map(exclaim).map(smile))
+      .concat(Identity.of(" world").map(exclaim).map(smile))
       .fold(id)
 
     expect(result).toBe("HELLO world! :)")
   })
 
   test("should concat array or str", () => {
-    const arrAndArr = Identity(["hello", "world"])
+    const arrAndArr = Identity.of(["hello", "world"])
       .map(x => x.map(toUpper))
-      .concat(Identity(["!"]).map(xs => xs.map(smile)))
+      .concat(Identity.of(["!"]).map(xs => xs.map(smile)))
       .fold(id)
 
-    const arrAndStr = Identity(["hello", "world"])
+    const arrAndStr = Identity.of(["hello", "world"])
       .map(x => x.map(toUpper))
-      .concat(Identity("!").map(smile))
+      .concat(Identity.of("!").map(smile))
       .fold(id)
 
     expect(arrAndArr).toEqual(["HELLO", "WORLD", "! :)"])
