@@ -127,3 +127,25 @@ Identity.of(["hello", "world"])
       .concat(Identity(["!"]).map(xs => xs.map(smile)))
       .fold(id) // ["HELLO", "WORLD", "! :)"]
 ```
+
+### IO
+
+a -> IO a
+
+| Methods         | Signature           |
+| --------------- | ------------------- |
+| map             | (a -> b) -> IO a    |
+| chain           | (a -> IO b) -> IO c |
+| unsafePerformIO | \_ -> a             |
+
+```
+import { IO } from "fp-utils-types"
+
+IO.of(2).map(add1).map(add1).unsafePerformIO()) // 4
+IO.of(2)
+  .map(x => x * 100)
+  .chain(result =>
+    IO.of([result, 25]).map(x => x.reduce((acc, y) => add(acc, y)))
+   )
+  .unsafePerformIO() // 225
+```

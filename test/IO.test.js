@@ -34,7 +34,7 @@ test("should concat 2 array", () => {
     IO.of(2)
       .map(x => x * 100)
       .chain(result =>
-        IO.of([result, 25]).map(x => x.reduce((acc, x) => add(acc, x)))
+        IO.of([result, 25]).map(x => x.reduce((acc, y) => add(acc, y)))
       )
       .unsafePerformIO()
   ).toBe(225)
