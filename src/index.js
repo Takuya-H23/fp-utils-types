@@ -7,3 +7,4 @@ export { default as pipe } from "./pipe"
 
 export { default as Either } from "./Either"
 export { default as Identity } from "./Identity"
+export { default as IO } from "./IO"
