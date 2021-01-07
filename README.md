@@ -31,6 +31,39 @@ curried1({ name: 'foo' }) // 'foo'
 curried2({ name: 'foo' }) // 'foo'
 ```
 
+### FilterReducer
+
+**(a -> b) => ((a, b) -> c) => ((a, b) -> c)**
+
+```
+import { filterReducer } from 'fp-utils-types'
+
+const ns = [1, 2, 3]
+const is1 = x => x === 1
+
+ns.reduce(filterReducer(is1)(combinerByConcat), []) // [1]
+
+```
+
+### MapReducer
+
+**(a -> b) => ((a, b) -> c) => ((a, b) -> c)**
+
+```
+import { compose, curryN, mapReducer } from 'fp-utils-types'
+
+const ns = [1, 2, 3]
+const add = curryN(2, (x, y) => x + y)
+const add1 = add(1)
+const combinerByConcat = (acc, x) => acc.concat(x)
+
+const transducer = compose(mapReducer(add1))
+
+ns.reduce(transducer(combinerByConcat), []) // [2, 3, 4]
+ns.reduce(transducer(add), 0) // 9
+
+```
+
 ### Pipe
 
 **(functions) => piped function**
@@ -68,8 +101,6 @@ sayItNicely(null).fold(() => "Left", id) // "Left"
 
 ### Identity
 
-**(any) => Identity(Any)**
-
 | Methods | Argument | Return                                                                                      |
 | ------- | -------- | ------------------------------------------------------------------------------------------- |
 | map     | unary    | Identity                                                                                    |
@@ -80,19 +111,41 @@ sayItNicely(null).fold(() => "Left", id) // "Left"
 ```
 import { Identity } from "fp-utils-types"
 
-Identity("hello")
+Identity.of("hello")
       .map(toUpper)
       .map(exclaim)
       .map(smile)
       .fold(id) // "HELLO! :)"
 
-Identity("hello")
+Identity.of("hello")
       .map(toUpper)
       .concat(Identity(" world").map(exclaim).map(smile))
       .fold(id) // "HELLO world! :)"
 
-Identity(["hello", "world"])
+Identity.of(["hello", "world"])
       .map(x => x.map(toUpper))
       .concat(Identity(["!"]).map(xs => xs.map(smile)))
       .fold(id) // ["HELLO", "WORLD", "! :)"]
+```
+
+### IO
+
+a -> IO a
+
+| Methods         | Signature           |
+| --------------- | ------------------- |
+| map             | (a -> b) -> IO a    |
+| chain           | (a -> IO b) -> IO c |
+| unsafePerformIO | \_ -> a             |
+
+```
+import { IO } from "fp-utils-types"
+
+IO.of(2).map(add1).map(add1).unsafePerformIO()) // 4
+IO.of(2)
+  .map(x => x * 100)
+  .chain(result =>
+    IO.of([result, 25]).map(x => x.reduce((acc, y) => add(acc, y)))
+   )
+  .unsafePerformIO() // 225
 ```
