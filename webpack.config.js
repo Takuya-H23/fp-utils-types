@@ -1,23 +1,24 @@
-const path = require('path')
+const path = require("path")
 
 module.exports = {
-  entry: './src/index.js',
+  entry: "./src/index.js",
   output: {
-    path: path.resolve('dist'),
-    filename: 'bundle.js',
-    library: 'fp-utils-types',
-    libraryTarget: 'umd',
+    path: path.resolve("dist"),
+    filename: "bundle.js",
+    library: "fp-utils-types",
+    libraryTarget: "umd",
+    globalObject: "this",
   },
   module: {
     rules: [
       {
         test: /\.js?$/,
         exclude: [/node_modules/, /test/],
-        use: 'babel-loader',
+        use: "babel-loader",
       },
     ],
   },
   resolve: {
-    extensions: ['.js'],
+    extensions: [".js"],
   },
 }
