@@ -22,10 +22,6 @@ class Reader {
     return this._run(x)
   }
 
-  ask() {
-    return new Reader(x => x)
-  }
-
   map(f) {
     this._run = compose(f, this._run)
     return this
@@ -39,5 +35,7 @@ class Reader {
     return new Reader(x => this._run(x).concat(other.run(x)))
   }
 }
+
+Reader.ask = new Reader(x => x)
 
 export default Reader

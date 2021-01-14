@@ -13,6 +13,15 @@ test("should concat", () => {
   expect(test).toEqual("hi :)hi :)")
 })
 
+test("should concat array of values", () => {
+  const test = new Reader(x => x)
+    .map(xs => xs.map(toUpper))
+    .concat(Reader.of(["doe"]).map(xs => xs.map(smile)))
+    .run(["john"])
+
+  expect(test).toEqual(["JOHN", "doe :)"])
+})
+
 test("should chain", () => {
   const test = Reader.of("hi")
     .map(toUpper)
@@ -21,12 +30,15 @@ test("should chain", () => {
   expect(test).toEqual(["HI", "hi"])
 })
 
-test.skip('should work with "of"', () => {
-  const test = Reader.of("hi").map(toUpper).run()
-  expect(test).toBe("HI")
+test("should chain works with 'of'", () => {
+  const test = Reader.of("hi")
+    .map(toUpper)
+    .chain(upper => Reader.of("of").map(x => [upper, x]))
+    .run("hi")
+  expect(test).toEqual(["HI", "of"])
 })
 
-test.skip("should be able to ask ", () => {
+test("should be able to ask ", () => {
   const test = Reader.of("hi")
     .map(toUpper)
     .chain(upper => Reader.ask.map(y => [upper, y]))
