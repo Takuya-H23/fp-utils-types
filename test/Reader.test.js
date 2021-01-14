@@ -3,6 +3,11 @@ import { add, smile, toUpper } from "./testUtils"
 
 const add1 = x => add(1)(x)
 
+test("should return value", () => {
+  const test = new Reader(x => x)
+  expect(test.run("hi")).toBe("hi")
+})
+
 test("should map", () => {
   const test = Reader.of(1).map(add1).run()
   expect(test).toBe(2)
